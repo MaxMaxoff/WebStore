@@ -1,0 +1,13 @@
+﻿@model WebStore.Domain.ViewModels.EmployeeViewModel
+
+@{
+    ViewData["Title"] = "Детали сотрудника";
+}
+
+
+<h2>@ViewData["Title"]</h2>
+
+@Html.DisplayForModel()
+
+<hr />
+@Html.ActionLink("К списку", "Index", "Employes")

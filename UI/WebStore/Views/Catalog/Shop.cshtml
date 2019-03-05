@@ -1,0 +1,22 @@
+﻿@model WebStore.Domain.ViewModels.Product.CatalogViewModel
+@{
+    ViewData["Title"] = "Купить";
+    Layout = "_LayoutBase";
+}
+
+@await Html.PartialAsync("Partial/_Advertisement")
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-3">
+                @await Html.PartialAsync("Partial/_LeftSideBar")
+            </div>
+
+            <div class="col-sm-9 padding-right">
+                @await Html.PartialAsync("Partial/_FeaturesItems", Model.Products)
+            </div>
+        </div>
+    </div>
+</section>
+
