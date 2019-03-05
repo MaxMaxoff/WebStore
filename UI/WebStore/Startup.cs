@@ -28,7 +28,6 @@ namespace WebStore
 
             services.AddTransient<IValuesService, ValuesClient>();
             services.AddScoped<IEmployeesData, InMemoryEmployeesData>();
-            //services.AddScoped<IProductData, InMemoryProductData>();
             services.AddScoped<IProductData, SqlProductData>();
             services.AddScoped<ICartService, CookieCartService>();
             services.AddScoped<IOrderService, SqlOrderService>();
@@ -49,7 +48,8 @@ namespace WebStore
                 opt.Lockout.MaxFailedAccessAttempts = 10;
                 opt.Lockout.AllowedForNewUsers = true;
 
-                //opt.User.RequireUniqueEmail = true; // hack!!!
+                // hack
+                //opt.User.RequireUniqueEmail = true;
             });
 
             services.ConfigureApplicationCookie(opt =>
@@ -84,11 +84,7 @@ namespace WebStore
 
             app.UseMvc(route =>
             {
-                //route.MapRoute("areas", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
-                route.MapRoute(
-                    name: "areas",
-                    template: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
-                );
+                route.MapRoute(name: "areas", template: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
                 route.MapRoute("default", "{controller=Home}/{action=Index}/{id?}");
             });
         }
