@@ -6,8 +6,7 @@ namespace WebStore.ServiceHosting.Controllers
     /// <summary>
     /// API Controller
     /// </summary>
-    [Route("api/[controller]")]
-    [ApiController]
+    [ApiController, Route("api/[controller]")]
     public class ValuesController : ControllerBase
     {
         /// <summary>

@@ -26,11 +26,7 @@ namespace WebStore
         {
             services.AddMvc();
 
-            services.AddTransient<IValuesService, ValuesClient>();
-            services.AddScoped<IEmployeesData, InMemoryEmployeesData>();
-            services.AddScoped<IProductData, SqlProductData>();
             services.AddScoped<ICartService, CookieCartService>();
-            services.AddScoped<IOrderService, SqlOrderService>();
 
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<WebStoreContext>()
