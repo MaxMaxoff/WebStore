@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using WebStore.Domain.Entities.Base.Interfaces;
+﻿using WebStore.Domain.Entities.Base.Interfaces;
 
-namespace WebStore.Domain.DTO
+namespace WebStore.Domain.DTO.Product
 {
     public class ProductDTO : INamedEntity, IOrderedEntity
     {

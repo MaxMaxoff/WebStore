@@ -6,16 +6,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using WebStore.Clients.Employees;
+using WebStore.Clients.Orders;
 using WebStore.Clients.Products;
 using WebStore.Clients.Values;
 using WebStore.DAL.Context;
 using WebStore.Domain.Entities;
-using WebStore.Interfaces;
 using WebStore.Interfaces.Api;
 using WebStore.Interfaces.Services;
 using WebStore.Services;
-using WebStore.Services.Data.InMemory;
-using WebStore.Services.Data.SQL;
 
 namespace WebStore
 {
@@ -29,20 +27,14 @@ namespace WebStore
         {
             services.AddMvc();
 
+            services.AddScoped<ICartService, CookieCartService>();
+
             services.AddTransient<IValuesService, ValuesClient>();
 
             services.AddTransient<IEmployeesData, EmployeesClient>();
-            //services.AddScoped<IEmployeesData, InMemoryEmployeesData>();
-
-            //services.AddScoped<IProductData, InMemoryProductData>();
-            //services.AddScoped<IProductData, ProductsClient>();
-            services.AddScoped<IProductData, SqlProductData>();
-
-            services.AddScoped<ICartService, CookieCartService>();
+            services.AddScoped<IProductData, ProductsClient>();
+            services.AddScoped<IOrderService, OrdersClient>();
             
-            //services.AddScoped<IOrderService, OrdersClient>();
-            services.AddScoped<IOrderService, SqlOrderService>();
-
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<WebStoreContext>()
                 .AddDefaultTokenProviders();
@@ -95,11 +87,7 @@ namespace WebStore
 
             app.UseMvc(route =>
             {
-                //route.MapRoute("areas", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
-                route.MapRoute(
-                    name: "areas",
-                    template: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
-                );
+                route.MapRoute("areas", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
                 route.MapRoute("default", "{controller=Home}/{action=Index}/{id?}");
             });
         }
