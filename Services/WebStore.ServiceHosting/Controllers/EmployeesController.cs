@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using WebStore.Domain.ViewModels;
-using WebStore.Interfaces;
+using WebStore.Interfaces.Services;
 
 namespace WebStore.ServiceHosting.Controllers
 {

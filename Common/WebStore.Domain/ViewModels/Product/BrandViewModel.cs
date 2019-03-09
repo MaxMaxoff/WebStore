@@ -7,9 +7,7 @@ namespace WebStore.Domain.ViewModels.Product
     {
         [HiddenInput(DisplayValue = false)]
         public int Id { get; set; }
-
         public string Name { get; set; }
-
         public int Order { get; set; }
     }
 }

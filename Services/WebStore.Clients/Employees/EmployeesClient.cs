@@ -3,14 +3,14 @@ using System.Net.Http;
 using Microsoft.Extensions.Configuration;
 using WebStore.Clients.Base;
 using WebStore.Domain.ViewModels;
-using WebStore.Interfaces;
+using WebStore.Interfaces.Services;
 
 namespace WebStore.Clients.Employees
 {
     public class EmployeesClient : BaseClient, IEmployeesData
     {
         public EmployeesClient(IConfiguration configuration) : base(configuration) => 
-            ServiceAddress = "api/Employees";
+            ServiceAddress = "api/employees";
 
         public IEnumerable<EmployeeViewModel> GetAll()
         {
@@ -40,7 +40,7 @@ namespace WebStore.Clients.Employees
 
         public void SaveChanges()
         {
-            
+
         }
     }
 }

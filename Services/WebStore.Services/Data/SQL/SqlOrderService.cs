@@ -7,7 +7,7 @@ using WebStore.DAL.Context;
 using WebStore.Domain.Entities;
 using WebStore.Domain.ViewModels.Cart;
 using WebStore.Domain.ViewModels.Order;
-using WebStore.Interfaces;
+using WebStore.Interfaces.Services;
 
 namespace WebStore.Services.Data.SQL
 {

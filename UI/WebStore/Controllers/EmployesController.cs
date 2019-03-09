@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebStore.Domain.ViewModels;
-using WebStore.Interfaces;
+using WebStore.Interfaces.Services;
 
 namespace WebStore.Controllers
 {
@@ -37,8 +37,7 @@ namespace WebStore.Controllers
             return View(employee);
         }
 
-        [HttpGet]
-        [Authorize(Roles = Domain.Entities.User.AdminRole)]
+        [HttpGet, Authorize(Roles = Domain.Entities.User.AdminRole)]
         public IActionResult Edit(int? id)
         {
             if (id is null)
@@ -56,9 +55,7 @@ namespace WebStore.Controllers
             return View(employee);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [Authorize(Roles = Domain.Entities.User.AdminRole)]
+        [HttpPost, ValidateAntiForgeryToken, Authorize(Roles = Domain.Entities.User.AdminRole)]
         public IActionResult Edit(EmployeeViewModel model)
         {
             if (!ModelState.IsValid)
@@ -86,8 +83,7 @@ namespace WebStore.Controllers
             return RedirectToAction("Index");
         }
 
-        [ValidateAntiForgeryToken]
-        [Authorize(Roles = Domain.Entities.User.AdminRole)]
+        [ValidateAntiForgeryToken, Authorize(Roles = Domain.Entities.User.AdminRole)]
         public IActionResult Delete(int? id)
         {
             if (id is null)

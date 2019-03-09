@@ -3,7 +3,7 @@ using WebStore.Domain.Entities;
 using WebStore.Domain.ViewModels.Cart;
 using WebStore.Domain.ViewModels.Order;
 
-namespace WebStore.Interfaces
+namespace WebStore.Interfaces.Services
 {
     /// <summary>
     /// Interface for Order Service

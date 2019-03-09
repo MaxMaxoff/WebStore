@@ -8,9 +8,9 @@ using Microsoft.Extensions.Configuration;
 namespace WebStore.Clients.Base
 {
     /// <summary>
-    /// Abstract class for Client
+    /// Abstract class for Base Client
     /// </summary>
-    public abstract class BaseClient
+public abstract class BaseClient
     {
         protected readonly HttpClient _Client;
 
@@ -28,36 +28,43 @@ namespace WebStore.Clients.Base
 
         protected T Get<T>(string url) where T : new() => GetAsync<T>(url).Result;
 
-        protected async Task<T> GetAsync<T>(string url, CancellationToken cancell = default(CancellationToken))
+        protected async Task<T> GetAsync<T>(string url, CancellationToken cancel = default(CancellationToken)) 
             where T : new()
         {
-            var response = await _Client.GetAsync(url,cancell);
+            var response = await _Client.GetAsync(url, cancel);
             if (response.IsSuccessStatusCode)
-                return await response.Content.ReadAsAsync<T>(cancell);
-            return default(T);
+                return await response.Content.ReadAsAsync<T>(cancel);
+            return new T();
+            //return default(T);
         }
 
-        protected HttpResponseMessage Post<T>(string url, T value) where T : new() => 
+        protected HttpResponseMessage Post<T>(string url, T value) 
+            where T : new() => 
             PostAsync(url, value).Result;
-        
-        protected async Task<HttpResponseMessage> PostAsync<T>(string url, T value, CancellationToken cancell = default(CancellationToken))
+
+        protected async Task<HttpResponseMessage> PostAsync<T>(
+            string url, 
+            T value, 
+            CancellationToken cancel = default(CancellationToken))
             where T : new()
         {
-            var response = await _Client.PostAsJsonAsync(url, value, cancell);
+            var response = await _Client.PostAsJsonAsync(url, value, cancel);
             return response.EnsureSuccessStatusCode();
         }
 
-        protected HttpResponseMessage Put<T>(string url, T value) where T : new() => PutAsync(url, value).Result;
-        
-        protected async Task<HttpResponseMessage> PutAsync<T>(string url, T value, CancellationToken cancell = default(CancellationToken))
-            where T : new() => 
-            (await _Client.PutAsJsonAsync(url, value, cancell)).EnsureSuccessStatusCode();
+        protected HttpResponseMessage Put<T>(string url, T value)
+            where T : new() =>
+            PutAsync(url, value).Result;
+
+        protected async Task<HttpResponseMessage> PutAsync<T>(string url, T value, CancellationToken cancel = default(CancellationToken))
+            where T : new() =>
+                (await _Client.PutAsJsonAsync(url, value, cancel))
+                .EnsureSuccessStatusCode();
 
         protected HttpResponseMessage Delete(string url) =>
             DeleteAsync(url).Result;
 
-        protected async Task<HttpResponseMessage> DeleteAsync(string url,
-            CancellationToken cancell = default(CancellationToken)) =>
-            await _Client.DeleteAsync(url, cancell);
+        protected async Task<HttpResponseMessage> DeleteAsync(string url, CancellationToken cancel = default(CancellationToken)) =>
+            await _Client.DeleteAsync(url, cancel);
     }
 }
