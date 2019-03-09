@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using WebStore.Domain.ViewModels;
-using WebStore.Interfaces;
+using WebStore.Interfaces.Services;
 
 namespace WebStore.Services.Data.InMemory
 {
@@ -14,15 +15,31 @@ namespace WebStore.Services.Data.InMemory
             new EmployeeViewModel { Id = 2, FirstName = "Сидор", SecondName = "Сидоров", Patronymic = "Сидорович", Age = 22 },
         };
 
-        public IEnumerable<EmployeeViewModel> Get() => _Employes;
+        public IEnumerable<EmployeeViewModel> GetAll() => _Employes;
 
         public EmployeeViewModel GetById(int id) => _Employes.FirstOrDefault(emp => emp.Id == id);
+
+        public EmployeeViewModel UpdateEmployee(int id, EmployeeViewModel employee)
+        {
+            if (employee is null) throw new ArgumentNullException(nameof(employee));
+
+            var exist_employee = GetById(id);
+            if (exist_employee is null)
+                throw new InvalidOperationException($"Сотрудник с id {id} не найден!");
+
+            exist_employee.FirstName = employee.FirstName;
+            exist_employee.Age = employee.Age;
+            exist_employee.Patronymic = employee.Patronymic;
+            exist_employee.SecondName = employee.SecondName;
+
+            return exist_employee;
+        }
 
         public void AddNew(EmployeeViewModel NewEmployee)
         {
             if(_Employes.Contains(NewEmployee))
                 return;
-            NewEmployee.Id = _Employes.Max(e => e.Id) + 1;
+            NewEmployee.Id = _Employes.Count == 0 ? 1 : _Employes.Max(e => e.Id) + 1;
             _Employes.Add(NewEmployee);
         }
 

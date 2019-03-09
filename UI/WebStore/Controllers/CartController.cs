@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Microsoft.AspNetCore.Mvc;
+using WebStore.Domain.DTO.Order;
 using WebStore.Domain.ViewModels.Details;
 using WebStore.Domain.ViewModels.Order;
-using WebStore.Interfaces;
+using WebStore.Interfaces.Services;
 
 namespace WebStore.Controllers
 {
@@ -59,10 +62,16 @@ namespace WebStore.Controllers
                     OrderViewModel = model
                 });
 
-            var order = _OrderService.CreateOrder(
-                model,
-                _CartService.TransformCart(),
-                User.Identity.Name);
+            var createOrderModel = new CreateOrderModel
+            {
+                OrderViewModel = model,
+                Items = _CartService.TransformCart().Items.Select(item => new OrderItemDTO
+                {
+                    Id = item.Key.Id,
+                    Quantity = item.Value
+                }).ToList()
+            };
+            var order = _OrderService.CreateOrder(createOrderModel, User.Identity.Name);
             _CartService.RemoveAll();
             return RedirectToAction("OrderConfirmed", new { id = order.Id });
         }

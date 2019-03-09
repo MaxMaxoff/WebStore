@@ -1,6 +1,6 @@
 ﻿using WebStore.Domain.ViewModels.Cart;
 
-namespace WebStore.Interfaces
+namespace WebStore.Interfaces.Services
 {
     /// <summary>
     /// Interface for Cart Service

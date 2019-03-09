@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebStore.Domain.ViewModels;
-using WebStore.Interfaces;
+using WebStore.Interfaces.Services;
 
 namespace WebStore.Controllers
 {
@@ -22,7 +23,7 @@ namespace WebStore.Controllers
         //[TestActionFilter]
         public IActionResult Index()
         {
-            return View(_EmployeesData.Get());
+            return View(_EmployeesData.GetAll());
         }
 
         public IActionResult Details(int? id)
@@ -37,15 +38,14 @@ namespace WebStore.Controllers
             return View(employee);
         }
 
-        [HttpGet]
-        [Authorize(Roles = Domain.Entities.User.AdminRole)]
+        [HttpGet, Authorize(Roles = Domain.Entities.User.AdminRole)]
         public IActionResult Edit(int? id)
         {
             if (id is null)
                 return View(new EmployeeViewModel
                 {
-                    FirstName = "Employee_name",
-                    SecondName = "Employee_second_name",
+                    FirstName = "Имя",
+                    SecondName = "Фамилия",
                     Age = 18
                 });
 
@@ -56,9 +56,7 @@ namespace WebStore.Controllers
             return View(employee);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [Authorize(Roles = Domain.Entities.User.AdminRole)]
+        [HttpPost, ValidateAntiForgeryToken, Authorize(Roles = Domain.Entities.User.AdminRole)]
         public IActionResult Edit(EmployeeViewModel model)
         {
             if (!ModelState.IsValid)
@@ -67,7 +65,7 @@ namespace WebStore.Controllers
                     ModelState.AddModelError("Ошибка возраста", "Не достигнуто совершеннолетие!");
                 return View(model);
             }
-            if (model.Id == 0)
+            if (!_EmployeesData.GetAll().Any())
             {
                 _EmployeesData.AddNew(model);
             }
@@ -81,12 +79,14 @@ namespace WebStore.Controllers
                 employee.SecondName = model.SecondName;
                 employee.Patronymic = model.Patronymic;
                 employee.Age = model.Age;
+
+                _EmployeesData.UpdateEmployee(employee.Id, employee);
+                _EmployeesData.SaveChanges();
             }
 
             return RedirectToAction("Index");
         }
 
-        [ValidateAntiForgeryToken]
         [Authorize(Roles = Domain.Entities.User.AdminRole)]
         public IActionResult Delete(int? id)
         {

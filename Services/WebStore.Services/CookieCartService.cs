@@ -3,10 +3,9 @@ using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using WebStore.Domain.Entities;
-using WebStore.Domain.ViewModels;
 using WebStore.Domain.ViewModels.Cart;
 using WebStore.Domain.ViewModels.Product;
-using WebStore.Interfaces;
+using WebStore.Interfaces.Services;
 
 namespace WebStore.Services
 {
