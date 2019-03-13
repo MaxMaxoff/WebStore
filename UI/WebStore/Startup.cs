@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using WebStore.Clients.Employees;
@@ -10,7 +9,6 @@ using WebStore.Clients.Orders;
 using WebStore.Clients.Products;
 using WebStore.Clients.Users;
 using WebStore.Clients.Values;
-using WebStore.DAL.Context;
 using WebStore.Domain.Entities;
 using WebStore.Interfaces.Api;
 using WebStore.Interfaces.Services;
@@ -39,7 +37,6 @@ namespace WebStore
             services.AddTransient<IUsersClient, UsersClient>();
             
             services.AddIdentity<User, IdentityRole>()
-                //.AddEntityFrameworkStores<WebStoreContext>()
                 .AddDefaultTokenProviders();
 
             #region Custom identity
