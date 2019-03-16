@@ -29,7 +29,9 @@ namespace WebStore
         {
             services.AddMvc();
 
-            services.AddScoped<ICartService, CookieCartService>();
+            //services.AddScoped<ICartService, CookieCartService>();
+            services.AddScoped<ICartStore, CookiesCartStore>();
+            services.AddScoped<ICartService, CartService>();
 
             services.AddTransient<IValuesService, ValuesClient>();
 
