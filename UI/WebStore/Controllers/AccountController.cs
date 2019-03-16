@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using WebStore.Domain.Entities;
 using WebStore.Domain.ViewModels.Account;
 
@@ -10,11 +11,13 @@ namespace WebStore.Controllers
     {
         private readonly UserManager<User> _UserManager;
         private readonly SignInManager<User> _SingInManager;
+        private readonly ILogger<AccountController> _Logger;
 
-        public AccountController(UserManager<User> UserManager, SignInManager<User> SingInManager)
+        public AccountController(UserManager<User> UserManager, SignInManager<User> SingInManager, ILogger<AccountController> Logger)
         {
             _UserManager = UserManager;
             _SingInManager = SingInManager;
+            _Logger = Logger;
         }
 
         [HttpGet]
@@ -25,6 +28,8 @@ namespace WebStore.Controllers
         {
             if (!ModelState.IsValid) return View(model);
 
+            _Logger.LogInformation(new EventId(0,"LoginStarted"), $"Attepmpt to login user {model.UserName}");
+
             var login_result = await _SingInManager.PasswordSignInAsync(
                 model.UserName,
                 model.Password,
@@ -33,11 +38,13 @@ namespace WebStore.Controllers
 
             if (login_result.Succeeded)
             {
+                _Logger.LogInformation(new EventId(1,"LoginFinished"), $"Attepmpt to login user {model.UserName} {login_result.ToString()}");
                 if (Url.IsLocalUrl(model.ReturnUrl))
                     return Redirect(model.ReturnUrl);
                 return RedirectToAction("Index", "Home");
             }
 
+            _Logger.LogWarning(new EventId(1,"LoginFinished"), $"Attepmpt to login user {model.UserName} {login_result.ToString()}");
             ModelState.AddModelError("", "Неверное имя, или пароль пользователя");
             return View(model);
         }

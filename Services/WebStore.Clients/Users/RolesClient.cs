@@ -3,13 +3,20 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using WebStore.Clients.Base;
 
 namespace WebStore.Clients.Users
 {
     public class RolesClient : BaseClient, IRoleStore<IdentityRole>
     {
-        public RolesClient(IConfiguration configuration) : base(configuration) => ServiceAddress = "api/roles";
+        private readonly ILogger<RolesClient> _Logger;
+
+        public RolesClient(IConfiguration configuration, ILogger<RolesClient> Logger) : base(configuration)
+        {
+            _Logger = Logger;
+            ServiceAddress = "api/roles";
+        }
 
         public async Task<IdentityResult> CreateAsync(IdentityRole role, CancellationToken cancel) =>
             await (await PostAsync(ServiceAddress, role, cancel))
@@ -67,10 +74,5 @@ namespace WebStore.Clients.Users
 
         public async Task<IdentityRole> FindByNameAsync(string name, CancellationToken cancel) =>
             await GetAsync<IdentityRole>($"{ServiceAddress}/FindByName/{name}", cancel);
-
-        //public void Dispose()
-        //{
-            
-        //}
     }
 }

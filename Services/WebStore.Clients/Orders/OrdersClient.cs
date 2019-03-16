@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using WebStore.Clients.Base;
 using WebStore.Domain.DTO.Order;
 using WebStore.Domain.Entities;
@@ -12,8 +13,11 @@ namespace WebStore.Clients.Orders
 {
     public class OrdersClient : BaseClient, IOrderService
     {
-        public OrdersClient(IConfiguration configuration) : base(configuration)
+        private readonly ILogger<OrdersClient> _Logger;
+
+        public OrdersClient(IConfiguration configuration, ILogger<OrdersClient> Logger) : base(configuration)
         {
+            _Logger = Logger;
             ServiceAddress = "api/orders";
         }
 
@@ -29,6 +33,7 @@ namespace WebStore.Clients.Orders
 
         public OrderDTO CreateOrder(CreateOrderModel Model, string UserName)
         {
+            _Logger.LogInformation($"Create Order for user {UserName}");
             var response = Post($"{ServiceAddress}/{UserName}", Model);
             return response.Content.ReadAsAsync<OrderDTO>().Result;
         }
