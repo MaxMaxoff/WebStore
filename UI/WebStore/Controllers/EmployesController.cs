@@ -21,10 +21,7 @@ namespace WebStore.Controllers
 
         //[Route("Get")]
         //[TestActionFilter]
-        public IActionResult Index()
-        {
-            return View(_EmployeesData.GetAll());
-        }
+        public IActionResult Index() => View(_EmployeesData.GetAll());
 
         public IActionResult Details(int? id)
         {
