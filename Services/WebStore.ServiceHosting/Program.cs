@@ -27,7 +27,7 @@ namespace WebStore.ServiceHosting
                 catch (Exception e)
                 {
                     services.GetRequiredService<ILogger<Program>>()
-                        .LogError(e, "Ошибка инициализации контекста БД");
+                        .LogError(e, "DB Context initialization error");
                 }
             }
 

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using WebStore.Clients.Employees;
 using WebStore.Clients.Orders;
 using WebStore.Clients.Products;
@@ -12,7 +13,9 @@ using WebStore.Clients.Values;
 using WebStore.Domain.Entities;
 using WebStore.Interfaces.Api;
 using WebStore.Interfaces.Services;
+using WebStore.Logger;
 using WebStore.Services;
+using WebStore.Services.MiddleWare;
 
 namespace WebStore
 {
@@ -88,8 +91,10 @@ namespace WebStore
             //});
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory logger)
         {
+            logger.AddLog4Net();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -99,6 +104,10 @@ namespace WebStore
             app.UseStaticFiles();
 
             app.UseAuthentication();
+
+            app.UseStatusCodePagesWithRedirects("~/home/ErrorStatus/{0}");
+
+            app.UseMiddleware(typeof(ErrorHandlingMiddleWare));
 
             app.UseMvc(route =>
             {
