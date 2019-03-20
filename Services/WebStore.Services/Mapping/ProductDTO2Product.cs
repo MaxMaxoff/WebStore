@@ -1,5 +1,4 @@
-﻿using WebStore.Domain.DTO;
-using WebStore.Domain.DTO.Product;
+﻿using WebStore.Domain.DTO.Product;
 using WebStore.Domain.Entities;
 
 namespace WebStore.Services.Mapping

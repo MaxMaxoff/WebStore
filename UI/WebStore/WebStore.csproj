@@ -29,7 +29,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="TagHelpers\" />
     <Folder Include="Views\Shared\Components\LoginLogout\" />
   </ItemGroup>
 
@@ -40,6 +39,7 @@
     <ProjectReference Include="..\..\Services\WebStore.DAL\WebStore.DAL.csproj" />
     <ProjectReference Include="..\..\Services\WebStore.Interfaces\WebStore.Interfaces.csproj" />
     <ProjectReference Include="..\..\Services\WebStore.Services\WebStore.Services.csproj" />
+    <ProjectReference Include="..\..\WebStore.TagHelpers\WebStore.TagHelpers.csproj" />
   </ItemGroup>
 
   <ItemGroup>
