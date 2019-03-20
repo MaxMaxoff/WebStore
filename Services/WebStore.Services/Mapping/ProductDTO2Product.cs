@@ -1,5 +1,4 @@
-﻿using WebStore.Domain.DTO;
-using WebStore.Domain.DTO.Product;
+﻿using WebStore.Domain.DTO.Product;
 using WebStore.Domain.Entities;
 
 namespace WebStore.Services.Mapping
@@ -21,6 +20,13 @@ namespace WebStore.Services.Mapping
                     {
                         Id = product.Brand.Id,
                         Name = product.Brand.Name
+                    },
+                Section = product.Section is null
+                    ? null
+                    : new SectionDTO
+                    {
+                        Id = product.Section.Id,
+                        Name = product.Section.Name
                     }
             };
         }
