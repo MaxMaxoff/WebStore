@@ -24,10 +24,14 @@ namespace WebStore.Services.Data.SQL
             return _db.Brands.AsEnumerable();
         }
 
+        public Brand GetBrandById(int id) => _db.Brands.FirstOrDefault(b => b.Id == id);
+
         public IEnumerable<Section> GetSections()
         {
             return _db.Sections.AsEnumerable();
         }
+
+        public Section GetSectionById(int id) => _db.Sections.FirstOrDefault(s => s.Id == id);
 
         public IEnumerable<ProductDTO> GetProducts(ProductFilter Filter = null)
         {

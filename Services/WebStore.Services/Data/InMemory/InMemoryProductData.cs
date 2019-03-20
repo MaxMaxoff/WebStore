@@ -12,7 +12,17 @@ namespace WebStore.Services.Data.InMemory
     {
         public IEnumerable<Brand> GetBrands() => TestData.Brands;
 
+        public Brand GetBrandById(int id)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public IEnumerable<Section> GetSections() => TestData.Sections;
+
+        public Section GetSectionById(int id)
+        {
+            throw new System.NotImplementedException();
+        }
 
         public IEnumerable<ProductDTO> GetProducts(ProductFilter Filter = null)
         {
