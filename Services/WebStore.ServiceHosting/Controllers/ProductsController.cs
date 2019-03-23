@@ -49,7 +49,8 @@ namespace WebStore.ServiceHosting.Controllers
         /// <param name="Filter">filter by product</param>
         /// <returns>List of Products</returns>
         [HttpPost, ActionName("Post")]
-        public IEnumerable<ProductDTO> GetProducts([FromBody] ProductFilter Filter = null)
+        //public IEnumerable<ProductDTO> GetProducts([FromBody] ProductFilter Filter = null)
+        public PagedProductDTO GetProducts([FromBody] ProductFilter Filter = null)
         {
             return _ProductData.GetProducts(Filter);
         }

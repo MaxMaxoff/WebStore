@@ -1,6 +1,8 @@
 ﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using WebStore.Domain.Entities;
+using WebStore.Domain.ViewModels;
 using WebStore.Domain.ViewModels.Product;
 using WebStore.Interfaces.Services;
 
@@ -9,22 +11,31 @@ namespace WebStore.Controllers
     public class CatalogController : Controller
     {
         private readonly IProductData _ProductData;
+        private readonly IConfiguration _Configuration;
 
-        public CatalogController(IProductData ProductData) => _ProductData = ProductData;
-
-        public IActionResult Shop(int? SectionId, int? BrandId)
+        //public CatalogController(IProductData ProductData, Microsoft.Extensions.Configuration.IConfiguration @object)
+        public CatalogController(IProductData ProductData, IConfiguration Configuration)
         {
+            _ProductData = ProductData;
+            _Configuration = Configuration;
+        }
+
+        public IActionResult Shop(int? SectionId, int? BrandId, int Page = 1)
+        {
+            var page_size = int.Parse(_Configuration["PageSize"]);
             var products = _ProductData.GetProducts(new ProductFilter
             {
                 BrandId = BrandId,
-                SectionId = SectionId
+                SectionId = SectionId,
+                Page = Page,
+                PageSize = page_size
             });
 
             var model = new CatalogViewModel
             {
                 BrandId = BrandId,
                 SectionId = SectionId,
-                Products = products.Select(p => new ProductViewModel
+                Products = products.Products.Select(p => new ProductViewModel
                 {
                     Id = p.Id,
                     Name = p.Name,
@@ -32,7 +43,13 @@ namespace WebStore.Controllers
                     Order = p.Order,
                     Price = p.Price,
                     Brand = p.Brand?.Name ?? string.Empty
-                }).OrderBy(p => p.Order).ToArray()
+                }).OrderBy(p => p.Order).ToArray(),
+                PageViewModel = new PageViewModel
+                {
+                    PageSize = page_size,
+                    PageNumber = Page,
+                    TotalItems = products.TotalCount
+                }
             };
 
             return View(model);
