@@ -36,13 +36,13 @@ namespace WebStore.Controllers
         public IActionResult DecrementFromCart(int id)
         {
             _CartService.DecrementFromCart(id);
-            return RedirectToAction("Details");
+            return Json(new { id, message = "Количество товара уменьшено на 1" });
         }
 
-        public IActionResult RemoveFromCart(int Id)
+        public IActionResult RemoveFromCart(int id)
         {
-            _CartService.RemoveFromCart(Id);
-            return RedirectToAction("Details");
+            _CartService.RemoveFromCart(id);
+            return Json(new { id, message = "Товар удалён из корзины" });
         }
 
         public IActionResult RemoveAll()
@@ -51,10 +51,10 @@ namespace WebStore.Controllers
             return RedirectToAction("Details");
         }
 
-        public IActionResult AddToCart(int Id)
+        public IActionResult AddToCart(int id)
         {
-            _CartService.AddToCart(Id);
-            return Json(new { Id, message = "Товар добавлен в корзину" });
+            _CartService.AddToCart(id);
+            return Json(new { id, message = "Товар добавлен в корзину" });
         }
 
         [HttpPost, ValidateAntiForgeryToken]

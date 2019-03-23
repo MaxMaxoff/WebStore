@@ -420,14 +420,16 @@ $(document).ready(function(){
 Cart = {
     _properties: {
         addToCartLink: "",
-        getCartViewLink: ""
+        getCartViewLink: "",
+        removeFromCartLink: ""
     },
     init: function (properties) {
         $.extend(Cart._properties, properties);
-        Cart.initAddToCart();
+        Cart.initEvents();
     },
-    initAddToCart: function () {
+    initEvents: function () {
         $("a.CallAddToCart").click(Cart.addToCart);
+        $("a.cart_quantity_delete").click(Cart.removeFromCart);
     },
     addToCart: function (event) {
         const button = $(this);
@@ -455,5 +457,17 @@ Cart = {
         $.get(Cart._properties.getCartViewLink)
             .done(function (result) { container.html(result); })
             .fail(function () { console.log("refreshCartView error"); });
+    },
+    removeFromCart: function(event) {
+        const button = $(this);
+        event.preventDefault();
+        const id = button.data("id");
+        $.get(Cart._properties.removeFromCartLink + "/" + id)
+            .done(function() {
+                button.closest("tr").remove();
+            })
+            .fail(function() {
+                console.log("removeFromCart error");
+            });
     }
 };
