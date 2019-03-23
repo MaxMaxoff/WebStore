@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using WebStore.Domain.DTO.Order;
@@ -18,6 +17,11 @@ namespace WebStore.Controllers
         {
             _CartService = CartService;
             _OrderService = OrderService;
+        }
+
+        public IActionResult GetCartView()
+        {
+            return ViewComponent("Cart");
         }
 
         public IActionResult Details()
@@ -47,10 +51,10 @@ namespace WebStore.Controllers
             return RedirectToAction("Details");
         }
 
-        public IActionResult AddToCart(int Id, string ReturnUrl)
+        public IActionResult AddToCart(int Id)
         {
             _CartService.AddToCart(Id);
-            return Redirect(ReturnUrl);
+            return Json(new { Id, message = "Товар добавлен в корзину" });
         }
 
         [HttpPost, ValidateAntiForgeryToken]

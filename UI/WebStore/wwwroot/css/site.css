@@ -1,6 +1,3 @@
-/*************************
-*******Typography******
-**************************/
 @import url(http://fonts.googleapis.com/css?family=Roboto:400,300,400italic,500,700,100);
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:400,800,300,600,700);
 @import url(http://fonts.googleapis.com/css?family=Abel);
@@ -2515,9 +2512,7 @@ h2.title {
     background: none;
 }
 
-.panel-body ul li.active, .brands-name ul li.active {
-    text-decoration: underline
-}
+.panel-body ul li.active, .brands-name ul li.active { text-decoration: underline }
 
 .contact-info .social-networks ul li a:hover {
     color: #FE980F;
